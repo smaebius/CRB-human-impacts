@@ -43,9 +43,9 @@ def load_forcings(file_name, col_name, taylor, blue_mesa, fontenelle, flaming_go
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/precip_mean.csv",
                                                               'prec_mean', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
-# # total precipitation
-# taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/prec_sum.csv',
-#                                                               'prec_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+# total precipitation
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/precip_sum.csv",
+                                                              'prec_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
 # # mean soil moisture
 # taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/soilmoist_mean.csv',
