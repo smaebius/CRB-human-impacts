@@ -13,18 +13,28 @@ def load_process_data(file_path):
     df.index = pd.to_datetime(df.index)
 
     # remove rows before 1950 and after 2011
-    df = df.loc[datetime.date(year=1950,month=10,day=1):datetime.date(year=2011,month=12,day=31)]
+    df = df.loc[datetime.date(year=1950,month=10,day=1):datetime.date(year=2010,month=12,day=31)]
+
+    # option for short term training data
+    # df = df.loc[datetime.date(year=2000,month=10,day=1):datetime.date(year=2010,month=12,day=31)]
+
+    # option to separate into post dam
+    # df = df.loc[datetime.date(year=1967,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # blue mesa post dam
+    # df = df.loc[datetime.date(year=1964,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # fontenelle post dam
+    # df = df.loc[datetime.date(year=1964,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # flaming gorge post dam
+    # df = df.loc[datetime.date(year=1962,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # navajo post dam
+    # df = df.loc[datetime.date(year=1964,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # lake powell post dam
+    # df = df.loc[datetime.date(year=1937,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # taylor park post dam
 
     # percentage of missing values
     print(df_name, '\n', df.isnull().sum().sort_values(ascending=False)/len(df), '\n')
-    print(df)
 
     # remove rows with na
     df.dropna(inplace=True)
 
-    # add cumulative time delta column
-    time_delta = df.index - df.index[0]
-    df['time_delta'] = time_delta.days
+    # # add cumulative time delta column
+    # time_delta = df.index - df.index[0]
+    # df['time_delta'] = time_delta.days
 
     # train test split at 10%
     Xysplit = int(len(df)*0.9)
@@ -59,10 +69,20 @@ def load_process_data(file_path):
     print("Training shape", X_train_tensors_final.shape, y_train_tensors.shape)
     print("Testing shape", X_test_tensors_final.shape, y_test_tensors.shape)
 
-    # torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/' + df_name + '_X_train.pt')
-    # torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/' + df_name + '_y_train.pt')
-    # torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/' + df_name + '_X_test.pt')
-    # torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/' + df_name + '_y_test.pt')
+    torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_X_train.pt')
+    torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_y_train.pt')
+    torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_X_test.pt')
+    torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_y_test.pt')
+
+    # torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_X_train.pt')
+    # torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_y_train.pt')
+    # torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_X_test.pt')
+    # torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_y_test.pt')
+
+    # torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_no_dam_X_train.pt')
+    # torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_no_dam_y_train.pt')
+    # torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_no_dam_X_test.pt')
+    # torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_no_dam_y_test.pt')
 
 
 load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/taylor-combined.csv")

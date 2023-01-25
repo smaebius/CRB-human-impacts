@@ -33,11 +33,23 @@ def load_forcings(file_name, col_name, taylor, blue_mesa, fontenelle, flaming_go
   navajo = navajo.join(df_forcing[['SJARN']]).rename(columns={"SJARN": col_name})
   lake_powell = lake_powell.join(df_forcing[['CRLFA']]).rename(columns={"CRLFA": col_name})
 
+  if col_name in ['evap','soilmoist','swe_mean','swe_sum']:
+    taylor[[col_name]] = taylor[[col_name]].fillna(value=0)
+    blue_mesa[[col_name]] = blue_mesa[[col_name]].fillna(value=0)
+    fontenelle[[col_name]] = fontenelle[[col_name]].fillna(value=0)
+    flaming_gorge[[col_name]] = flaming_gorge[[col_name]].fillna(value=0)
+    navajo[[col_name]] = navajo[[col_name]].fillna(value=0)
+    lake_powell[[col_name]] = lake_powell[[col_name]].fillna(value=0)
+
   return taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell
 
 # # evapotraspiration
 # taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/et_mean.csv',
 #                                                               'et', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+
+# evaporation
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/evap_livneh_mean.csv",
+                                                              'evap', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
 # mean precipitation
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/precip_mean.csv",
@@ -47,17 +59,17 @@ taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcing
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/precip_sum.csv",
                                                               'prec_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
-# # mean soil moisture
-# taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/soilmoist_mean.csv',
-#                                                               'soilmoist', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+# mean soil moisture
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/soil_livneh_mean.csv",
+                                                              'soilmoist', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
-# # mean snow water equivalent
-# taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/swe_mean.csv',
-#                                                               'swe_mean', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+# mean snow water equivalent
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/swe_livneh_mean.csv",
+                                                              'swe_mean', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
-# # total snow water equivalent
-# taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('/content/drive/MyDrive/CRB-analysis/swe_sum.csv',
-#                                                               'swe_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+# total snow water equivalent
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings("C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/swe_livneh_sum.csv",
+                                                              'swe_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
 # mean max temperature
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/tmax_mean.csv',
@@ -71,19 +83,19 @@ taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcing
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/wind_mean.csv',
                                                               'wind', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
-## append naturalized streamflow data
-df = pd.read_csv("C:/Users/375237/Desktop/CRB-human-impacts/Data/NaturalMonthly.csv", index_col='datetime', thousands=',')
-df.rename(columns={"09109000": "Nat-09109000", "09124700": "Nat-09124700", "09211200": "Nat-09211200",
-                   "09234500": "Nat-09234500", "09355500": "Nat-09355500", "09380000": "Nat-09380000"}, inplace=True)
-df.index = pd.DatetimeIndex(df.index)
-df = df.resample('D').bfill() # upsample to daily resolution
+# ## append naturalized streamflow data
+# df = pd.read_csv("C:/Users/375237/Desktop/CRB-human-impacts/Data/NaturalMonthly.csv", index_col='datetime', thousands=',')
+# df.rename(columns={"09109000": "Nat-09109000", "09124700": "Nat-09124700", "09211200": "Nat-09211200",
+#                    "09234500": "Nat-09234500", "09355500": "Nat-09355500", "09380000": "Nat-09380000"}, inplace=True)
+# df.index = pd.DatetimeIndex(df.index)
+# df = df.resample('D').bfill() # upsample to daily resolution
 
-taylor = taylor.join(df['Nat-09124700'])
-blue_mesa = blue_mesa.join(df['Nat-09109000'])
-fontenelle = fontenelle.join(df['Nat-09211200'])
-flaming_gorge = flaming_gorge.join(df['Nat-09234500'])
-navajo = navajo.join(df['Nat-09355500'])
-lake_powell = lake_powell.join(df['Nat-09380000'])
+# taylor = taylor.join(df['Nat-09124700'])
+# blue_mesa = blue_mesa.join(df['Nat-09109000'])
+# fontenelle = fontenelle.join(df['Nat-09211200'])
+# flaming_gorge = flaming_gorge.join(df['Nat-09234500'])
+# navajo = navajo.join(df['Nat-09355500'])
+# lake_powell = lake_powell.join(df['Nat-09380000'])
 
 taylor.to_csv("C:/Users/375237/Desktop/CRB-human-impacts/Data/taylor-combined.csv")
 blue_mesa.to_csv("C:/Users/375237/Desktop/CRB-human-impacts/Data/blue_mesa-combined.csv")
