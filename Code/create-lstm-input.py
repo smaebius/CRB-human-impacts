@@ -26,6 +26,12 @@ def load_process_data(file_path):
     # df = df.loc[datetime.date(year=1964,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # lake powell post dam
     # df = df.loc[datetime.date(year=1937,month=1,day=1):datetime.date(year=2010,month=12,day=31)] # taylor park post dam
 
+    # option to separate into pre dam
+    # df = df.loc[datetime.date(year=1950,month=1,day=1):datetime.date(year=1962,month=12,day=31)] # blue mesa pre dam
+    # df = df.loc[datetime.date(year=1950,month=1,day=1):datetime.date(year=1960,month=12,day=31)] # flaming gorge pre dam
+    # df = df.loc[datetime.date(year=1950,month=1,day=1):datetime.date(year=1958,month=12,day=31)] # navajo pre dam
+    # df = df.loc[datetime.date(year=1950,month=1,day=1):datetime.date(year=1964,month=12,day=31)] # lake powell pre dam
+
     # percentage of missing values
     print(df_name, '\n', df.isnull().sum().sort_values(ascending=False)/len(df), '\n')
 
@@ -74,6 +80,11 @@ def load_process_data(file_path):
     torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_X_test.pt')
     torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_y_test.pt')
 
+    # torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_pre_dam_X_train.pt')
+    # torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_pre_dam_y_train.pt')
+    # torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_pre_dam_X_test.pt')
+    # torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_pre_dam_y_test.pt')
+
     # torch.save(X_train_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_X_train.pt')
     # torch.save(y_train_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_y_train.pt')
     # torch.save(X_test_tensors_final, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + 'short_X_test.pt')
@@ -85,9 +96,9 @@ def load_process_data(file_path):
     # torch.save(y_test_tensors, 'C:/Users/375237/Desktop/CRB-human-impacts/Data/tensors/livneh/' + df_name + '_no_dam_y_test.pt')
 
 
-load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/taylor-combined.csv")
+load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/taylor-combined.csv") # not enough data
 load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/blue_mesa-combined.csv")
-load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/fontenelle-combined.csv")
+load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/fontenelle-combined.csv") # not enough data
 load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/flaming_gorge-combined.csv")
 load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/navajo-combined.csv")
 load_process_data("C:/Users/375237/Desktop/CRB-human-impacts/Data/lake_powell-combined.csv")
