@@ -1,7 +1,6 @@
-# Human Impacts on 🌊 Streamflow 🌊 in the Colorado River Basin
+## Machine learning partitioning approach to improve 🌊 streamflow 🌊 estimates in basins with human and climate alterations in the Colorado River Basin
 
-
-## Data
+### Data
 
 - `VotE`: a data fusion platform providing access to streamflow data allowing for quick analysis, mapping, and modeling of Earth's rivers
   - [Source](https://github.com/VeinsOfTheEarth/VotE)
