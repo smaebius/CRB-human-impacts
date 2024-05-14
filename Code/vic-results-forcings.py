@@ -121,10 +121,14 @@ swe = pd.DataFrame(columns=cols, index=dates)
 soil = pd.DataFrame(columns=cols, index=dates)
 evap = pd.DataFrame(columns=cols, index=dates)
 sdepth = pd.DataFrame(columns=cols, index=dates)
+baseflow = pd.DataFrame(columns=cols, index=dates)
+runoff = pd.DataFrame(columns=cols, index=dates)
 swe.fillna(0, inplace=True)
 soil.fillna(0, inplace=True)
 evap.fillna(0, inplace=True)
 sdepth.fillna(0, inplace=True)
+baseflow.fillna(0, inplace=True)
+runoff.fillna(0, inplace=True)
 
 # add info from each file to dataframe
 count = {'GRFRW': 0,'GRGRW': 0,'GRNGU': 0,'LSNSC': 0,'YRNMC': 0,'WRNWU': 0,'GRAGR': 0,'COGSC': 0,'GRBMC': 0,'GRGJC': 0,'CRNCU': 0,'DRNCU': 0,'SJNBU': 0,
@@ -150,12 +154,16 @@ for f in files:
       soil[row.BASIN_NAME] += df['soil']
       evap[row.BASIN_NAME] += df['evap']
       sdepth[row.BASIN_NAME] += df['sdepth']
+      baseflow[row.BASIN_NAME] += df['baseflow']
+      runoff[row.BASIN_NAME] += df['runoff']
       count[row.BASIN_NAME] += 1 # for computing mean
 
 swe.to_csv('swe_livneh_sum.csv')
 soil.to_csv('soil_livneh_sum.csv')
 evap.to_csv('evap_livneh_sum.csv')
 sdepth.to_csv('sdepth_livneh_sum.csv')
+baseflow.to_csv('baseflow_livneh_sum.csv')
+runoff.to_csv('runoff_livneh_sum.csv')
 
 # update values to reflect mean
 for key in count.keys():
@@ -163,9 +171,13 @@ for key in count.keys():
   soil[key] /= count[key]
   evap[key] /= count[key]
   sdepth[key] /= count[key]
+  baseflow[key] /= count[key]
+  runoff[key] /= count[key]
 
 # save to csv
 swe.to_csv('swe_livneh_mean.csv')
 soil.to_csv('soil_livneh_mean.csv')
 evap.to_csv('evap_livneh_mean.csv')
 sdepth.to_csv('sdepth_livneh_mean.csv')
+baseflow.to_csv('baseflow_livneh_mean.csv')
+runoff.to_csv('runoff_livneh_mean.csv')

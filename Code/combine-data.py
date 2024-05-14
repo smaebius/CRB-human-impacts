@@ -33,7 +33,7 @@ def load_forcings(file_name, col_name, taylor, blue_mesa, fontenelle, flaming_go
   navajo = navajo.join(df_forcing[['SJARN']]).rename(columns={"SJARN": col_name})
   lake_powell = lake_powell.join(df_forcing[['CRLFA']]).rename(columns={"CRLFA": col_name})
 
-  if col_name in ['evap','soilmoist','swe_mean','swe_sum']:
+  if col_name in ['evap','soilmoist','swe_mean','swe_sum', 'runoff', 'baseflow']:
     taylor[[col_name]] = taylor[[col_name]].fillna(value=0)
     blue_mesa[[col_name]] = blue_mesa[[col_name]].fillna(value=0)
     fontenelle[[col_name]] = fontenelle[[col_name]].fillna(value=0)
@@ -82,6 +82,22 @@ taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcing
 # mean wind speed
 taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/wind_mean.csv',
                                                               'wind', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+
+# mean baseflow
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/baseflow_livneh_mean.csv',
+                                                              'baseflow_mean', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+
+# mean runoff
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/runoff_livneh_mean.csv',
+                                                              'runoff_mean', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+
+# total baseflow
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/baseflow_livneh_sum.csv',
+                                                              'baseflow_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
+
+# total runoff
+taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell = load_forcings('C:/Users/375237/Desktop/CRB-human-impacts/Data/per_station/runoff_livneh_sum.csv',
+                                                              'runoff_sum', taylor, blue_mesa, fontenelle, flaming_gorge, navajo, lake_powell)
 
 # ## append naturalized streamflow data
 # df = pd.read_csv("C:/Users/375237/Desktop/CRB-human-impacts/Data/NaturalMonthly.csv", index_col='datetime', thousands=',')
