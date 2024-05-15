@@ -1,0 +1,98 @@
+allow_subsequent_nan_losses: 50
+batch_size: 256
+clip_gradient_norm: 1
+clip_targets_to_zero:
+- q_cms
+data_dir: natural-flow-2/
+dataset: generic
+device: cuda:0
+dynamic_inputs:
+- total_precipitation__sum__era5l_daily
+- surface_net_solar_radiation__mean__era5l_daily
+- temperature_2m__mean__era5l_daily
+- dewpoint_temperature_2m__max__era5l_daily
+- surface_pressure__mean__era5l_daily
+- snow_depth_water_equivalent__mean__era5l_daily
+- potential_evaporation__sum__era5l_daily
+- volumetric_soil_water_layer_1__mean__era5l_daily
+- dayofyear
+- developed
+- cropland
+- grass_shrub
+- tree_cover
+- water
+- wetland
+- ice_snow
+- barren
+- recurrence
+- annual_forbs_grass
+- perenn_forbs_grass
+- shrubs
+- trees
+- bare_ground
+- rand_n
+- aet
+- pet
+- pre
+- cmi
+- pnv
+epochs: 50
+experiment_name: d_group_flashy_sl_10_hs_121
+forcings:
+- maurer
+- daymet
+- nldas
+head: regression
+hidden_size: 121
+initial_forget_bias: 3
+learning_rate:
+  0: 1e-3
+  20: 5e-4
+  25: 1e-4
+log_interval: 5
+log_tensorboard: true
+loss: NSE
+metrics:
+- NSE
+- RMSE
+- KGE
+model: cudalstm
+negative_sample_handling: clip
+num_workers: 48
+optimizer: Adam
+output_activation: linear
+output_dropout: 0.4
+predict_last_n: 1
+save_weights_every: 1
+seed: 123
+seq_length: 10
+static_attributes:
+- topo_MERIT_elev
+- ha_slp_dg_sav
+- drainarea_km2
+- ha_for_pc_sse
+- soil_Pelletier_sed_thickness
+- e5l_moisture_index
+- soil_SG250_sand_0_5
+- soil_SG250_silt_0_5
+- soil_SG250_clay_0_5
+- soil_SG250_soc_0_5
+- e5l_p_mean
+- e5l_pet_mean
+- e5l_aridity
+- e5l_frac_snow
+- e5l_high_prec_freq
+- e5l_high_prec_dur
+- e5l_low_prec_freq
+- e5l_low_prec_dur
+target_variables:
+- q_cms
+test_basin_file: natural-flow-2/d_group_flashy.txt
+test_end_date: 30/09/2020
+test_start_date: 01/10/2010
+train_basin_file: natural-flow-2/d_group_flashy.txt
+train_end_date: 30/09/2009
+train_start_date: 01/10/2000
+validation_basin_file: natural-flow-2/d_group_flashy.txt
+validation_end_date: 30/09/2010
+validation_start_date: 01/10/2009

@@ -1,0 +1,165 @@
+# --- Experiment configurations --------------------------------------------------------------------
+
+# experiment name, used as folder name
+experiment_name: b_group_c
+
+# files to specify training, validation and test basins (relative to code root or absolute path)
+train_basin_file: natural-flow-2/b_group_c.txt
+validation_basin_file: natural-flow-2/b_group_c.txt
+test_basin_file: natural-flow-2/b_group_c.txt
+
+# training, validation and test time periods (format = 'dd/mm/yyyy')
+train_start_date: "01/10/2000"
+train_end_date: "30/09/2009"
+validation_start_date: "01/10/2009"
+validation_end_date: "30/09/2010"
+test_start_date: "01/10/2010"
+test_end_date: "30/09/2020"
+
+
+# fixed seed, leave empty to use a random seed
+seed: 123
+
+# which GPU (id) to use [in format of cuda:0, cuda:1 etc, or cpu or None]
+device: cuda:0
+
+# --- Validation configuration ---------------------------------------------------------------------
+
+# specify after how many epochs to perform validation
+# validate_every: 25
+
+# specify how many random basins to use for validation
+# validate_n_random_basins: 400
+
+# specify which metrics to calculate during validation (see codebase.evaluation.metrics)
+metrics:
+- NSE
+- RMSE
+- KGE
+
+# --- Model configuration --------------------------------------------------------------------------
+
+# base model type [lstm, ealstm, cudalstm, embcudalstm, shortcutlstm, dropoutlstm, cudalstminitialh]
+# (has to match the if statement in modelzoo/__init__.py)
+model: cudalstm
+
+# prediction head [regression, mdn, umal]. Define the head specific parameters below
+head: regression
+
+# ----> General settings <----
+
+# Number of cell states of the LSTM
+hidden_size: 256
+
+# Initial bias value of the forget gate
+initial_forget_bias: 3
+
+# Dropout applied to the output of the LSTM
+output_dropout: 0.4
+
+output_activation: linear
+
+# --- Training configuration -----------------------------------------------------------------------
+
+# specify optimizer [Adam, Adadelta]
+optimizer: Adam
+
+# specify loss [MSE, NSE, RMSE, UMALLoss, MDNLoss]
+loss: NSE
+
+# specify learning rates to use starting at specific epochs (0 is the initial learning rate)
+learning_rate:
+    0: 1e-3
+    20: 5e-4
+    25: 1e-4
+
+# Mini-batch size
+batch_size: 256
+
+# Number of training epochs
+epochs: 50
+
+# If True, clips norm of gradients
+clip_gradient_norm: 1
+
+# clip negative samples to zero
+negative_sample_handling: clip
+
+# maximum loss
+allow_subsequent_nan_losses: 50
+
+# clip negative predictions to zero
+clip_targets_to_zero:
+- q_cms
+
+# Defines which time steps are used to calculate the loss. Can't be larger than seq_length
+predict_last_n: 1
+
+# Length of the input sequence
+seq_length: 365
+
+# Number of parallel workers used in the data pipeline
+num_workers: 48
+
+# Log the training loss every n steps
+log_interval: 5
+
+# If true, writes logging results into tensorboard file
+log_tensorboard: True
+
+# Save model weights every n epochs
+save_weights_every: 1
+
+# Store the results of the validation to disk
+# save_validation_results: True
+
+# --- Data configurations --------------------------------------------------------------------------
+
+dataset: generic
+
+# Path to data set
+data_dir: natural-flow-2/
+
+forcings:
+  - maurer
+  - daymet
+  - nldas
+
+# variables to use as time series input (names match the data file column headers)
+# Note: In case of multiple input forcing products, you have to append the forcing product behind
+# each variable. E.g. 'prcp(mm/day)' of the daymet product is 'prcp(mm/day)_daymet'
+dynamic_inputs:
+- total_precipitation__sum__era5l_daily
+- surface_net_solar_radiation__mean__era5l_daily
+- temperature_2m__mean__era5l_daily
+- dewpoint_temperature_2m__max__era5l_daily
+- surface_pressure__mean__era5l_daily
+- snow_depth_water_equivalent__mean__era5l_daily
+- potential_evaporation__sum__era5l_daily
+- volumetric_soil_water_layer_1__mean__era5l_daily
+- dayofyear
+
+
+# which columns to use as target
+target_variables:
+- q_cms
+
+static_attributes:
+- topo_MERIT_elev
+- ha_slp_dg_sav
+- drainarea_km2
+- ha_for_pc_sse
+- soil_Pelletier_sed_thickness
+- e5l_moisture_index
+- soil_SG250_sand_0_5
+- soil_SG250_silt_0_5
+- soil_SG250_clay_0_5
+- soil_SG250_soc_0_5
+- e5l_p_mean
+- e5l_pet_mean
+- e5l_aridity
+- e5l_frac_snow
+- e5l_high_prec_freq
+- e5l_high_prec_dur
+- e5l_low_prec_freq
+- e5l_low_prec_dur
